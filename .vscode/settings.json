@@ -1,0 +1,5 @@
+{
+  "files.eol": "\r\n",
+  "editor.formatOnSave": true, // 保存进行格式化
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // 使用prettier进行文档的格式化
+}
