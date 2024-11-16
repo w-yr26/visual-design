@@ -15,12 +15,4 @@ module.exports = {
     'prettier/prettier': 'error', // 违反prettier的规则，将产生一个错误
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }], // 配置React热刷新的规则，允许常量到导出
   },
-  overrides: [
-    {
-      files: ['craco.config.ts'], // 针对 craco.config.ts 文件
-      rules: {
-        '@typescript-eslint/no-var-requires': 'off', // 关闭 no-var-requires 规则
-      },
-    },
-  ],
 }
