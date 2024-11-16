@@ -1,4 +1,4 @@
-import { RootState } from '../../store'
+import { RootState } from '@/store'
 import { MainBox } from './style'
 import { useSelector } from 'react-redux'
 

@@ -1,9 +1,9 @@
 import { Button } from 'antd'
 import { EditFilled } from '@ant-design/icons'
-import componentList from '../../../custom-components/component-list'
+import componentList from '@/custom-components/component-list'
 import { ComBox } from './style'
 import { useDispatch } from 'react-redux'
-import { addRenderDOM } from '../../../store/modules/RenderSlice'
+import { addRenderDOM } from '@/store/modules/RenderSlice'
 import _ from 'lodash'
 const MAP_TITLE = {
   title: '默认文字样式',

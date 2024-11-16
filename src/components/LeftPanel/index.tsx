@@ -2,7 +2,7 @@ import { CloudUploadOutlined, ExperimentOutlined, ProductOutlined } from '@ant-d
 import { Popover } from 'antd'
 import { LeftBox } from './style'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../store'
+import { RootState } from '@/store'
 import ComList from './components/ComList'
 
 const LeftPanel = () => {

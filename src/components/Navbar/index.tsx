@@ -12,8 +12,8 @@ import {
 import { Button, Tooltip } from 'antd'
 import { NavBox } from './style'
 import { useSelector, useDispatch } from 'react-redux'
-import type { RootState } from '../../store'
-import { changeExtend } from '../../store/modules/LayoutSlice'
+import type { RootState } from '@/store'
+import { changeExtend } from '@/store/modules/LayoutSlice'
 
 const Navbar: React.FC = () => {
   // const [isExtend, setExtend] = useState(false)
