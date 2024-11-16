@@ -21,7 +21,12 @@ const ComList = () => {
   const addTitle = (key: string, index: number) => {
     const titleList = componentList.get(key)!
     const titleNode = _.clone(titleList[index])
-    dispatch(addRenderDOM(titleNode))
+    dispatch(
+      addRenderDOM({
+        ...titleNode,
+        uuid: +new Date(),
+      }),
+    )
   }
   return (
     <ComBox>

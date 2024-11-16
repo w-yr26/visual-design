@@ -8,6 +8,7 @@ const componentList = new Map([
         component: 'v-text', // 组件名称
         label: 'add default text', // 左侧组件列表中显示的名字
         propValue: '文字', // 组件所使用的值
+        uuid: '', // 组件id(为时间戳，防止一致)
         animations: [], // 动画列表
         events: {}, // 事件列表
         style: {
@@ -35,11 +36,12 @@ const componentList = new Map([
         component: 'v-first-title',
         label: '一级标题',
         propValue: '一级标题',
+        uuid: '',
         animations: [],
         events: {},
         style: {
           width: 200,
-          height: 33,
+          height: 40,
           color: '',
           fontSize: 32,
           fontWeight: 700,
@@ -56,6 +58,7 @@ const componentList = new Map([
         component: 'v-second-title',
         label: '二级标题',
         propValue: '二级标题',
+        uuid: '',
         animations: [],
         events: {},
         style: {
@@ -77,11 +80,12 @@ const componentList = new Map([
         component: 'v-third-title',
         label: '三级标题',
         propValue: '三级标题',
+        uuid: '',
         animations: [],
         events: {},
         style: {
           width: 200,
-          height: 33,
+          height: 28,
           color: '',
           fontSize: 18,
           fontWeight: 500,
@@ -104,19 +108,22 @@ export type CommonType = {
   component: string
   label: string
   propValue: string
+  uuid: string // 选中的组件id(以时间戳为id，避免key值一致)
   animations?: any[]
   events?: any
-  style: {
-    width: number
-    height: number
-    color: string
-    fontSize: number
-    fontWeight: number
-    textAlign: 'left' | 'right' | 'center'
-    letterSpacing: number
-    lineHeight: number
-    opacity: number
-    top: number
-    left: number
-  }
+  style: defaultStyle
+}
+
+export type defaultStyle = {
+  width: number
+  height: number
+  color: string
+  fontSize: number
+  fontWeight: number
+  textAlign: 'left' | 'right' | 'center'
+  letterSpacing: number
+  lineHeight: number
+  opacity: number
+  top: number
+  left: number
 }

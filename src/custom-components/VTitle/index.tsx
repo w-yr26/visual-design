@@ -1,13 +1,22 @@
-const VFirstTitle = () => {
-  return <>this is VFirstTitle</>
+import { defaultStyle } from '../component-list'
+
+type Props = {
+  label: string
+  style: defaultStyle
 }
 
-const VSecondTitle = () => {
-  return <>this is VSecondTitle</>
+const VTitle = (props: Props) => {
+  const { style, label } = props
+  return (
+    <div
+      style={{
+        ...style,
+        position: 'absolute',
+      }}
+    >
+      {label}
+    </div>
+  )
 }
 
-const VThirdTitle = () => {
-  return <>this is VThirdTitle</>
-}
-
-export { VFirstTitle, VSecondTitle, VThirdTitle }
+export default VTitle
