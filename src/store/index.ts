@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { LayoutReducer } from './modules'
+import { LayoutReducer, RenderReducer } from './modules'
 const store = configureStore({
   reducer: {
     layout: LayoutReducer,
+    render: RenderReducer,
   },
 })
 

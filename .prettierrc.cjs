@@ -4,6 +4,6 @@ module.exports = {
   semi: false, // 结尾使用分号
   singleQuote: true, // 使用单引号代替双引号
   bracketSpacing: true, // 对象括号两边是否用空格隔开
-  bracketSameLine: true, // 组件最后的尖括号不另起一行
+  bracketSameLine: false, // 组件最后的尖括号不另起一行
   endOfLine: 'crlf',
 }

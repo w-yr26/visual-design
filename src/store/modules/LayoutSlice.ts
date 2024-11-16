@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const LayoutSliceReducer = createSlice({
+const LayoutSlice = createSlice({
   name: 'layout',
   initialState: {
     isExtend: true,
@@ -12,6 +12,6 @@ const LayoutSliceReducer = createSlice({
   },
 })
 
-export const { changeExtend } = LayoutSliceReducer.actions
+export const { changeExtend } = LayoutSlice.actions
 
-export default LayoutSliceReducer.reducer
+export default LayoutSlice.reducer

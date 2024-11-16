@@ -10,8 +10,10 @@ export const MainBox = styled.div`
   }
 
   .drawing-board-container {
+    position: relative;
     width: 460px;
     height: 90%;
-    background-color: green;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.1);
   }
 `
