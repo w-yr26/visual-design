@@ -1,17 +1,18 @@
 import { RootState } from '@/store'
 import { MainBox } from './style'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateDOMPosition, getCurrentDOM } from '@/store/modules/RenderSlice'
+import { updateDOMPosition, getCurrentDOM, resetClickDOM } from '@/store/modules/RenderSlice'
 import VText from '@/custom-components/VText'
 import VTitle from '@/custom-components/VTitle'
 import _ from 'lodash'
 
 const MainDesign = () => {
-  const { renderList } = useSelector((state: RootState) => state.render)
+  const { renderList, curComIndex } = useSelector((state: RootState) => state.render)
   const dispatch = useDispatch()
   const handleMouseDown = (e: React.MouseEvent, uuid: string) => {
     // 阻止事件冒泡(因为可能存在选中画布而不选中组件的情况)
     e.stopPropagation()
+    e.preventDefault() // 阻止触发 click 事件
     // 根据uuid找到当前选中的组件
     const currentNode = renderList.find((item) => item.uuid === uuid)
     if (!currentNode) return console.log('组件未被选中')
@@ -45,8 +46,11 @@ const MainDesign = () => {
     }, 20)
 
     // 监听鼠标放开事件
-    const up = () => {
+    const up = (moveEvent: MouseEvent) => {
       console.log('弹起')
+      moveEvent.stopPropagation()
+      moveEvent.preventDefault() // 阻止触发 click 事件
+
       // 取消未执行的节流事件
       move.cancel()
       document.removeEventListener('mousemove', move)
@@ -65,21 +69,36 @@ const MainDesign = () => {
   const handleDragEnd = (e: React.DragEvent) => {
     e.preventDefault()
   }
+
+  // 点击画布
+  const clickBoard = () => {
+    console.log('exe')
+
+    // 不选中任何元素
+    // dispatch(resetClickDOM())
+  }
+
   return (
     <MainBox>
       <div className="design-container">
         {/* 画布区域 */}
-        <div className="drawing-board-container">
-          {renderList.map((node) => (
+        <div className="drawing-board-container" onClick={clickBoard}>
+          {renderList.map((node, index) => (
             <div
               key={node.uuid}
               draggable
               onMouseDown={(e) => handleMouseDown(e, node.uuid)}
               onDragStart={handleDragStart}
               onDragEnd={handleDragEnd}
+              style={{
+                zIndex: index,
+                position: 'absolute',
+                ...node.style,
+              }}
+              className={curComIndex === index ? 'active' : ''}
             >
-              {node.type === 'v-text' && <VText label={node.label} style={node.style} />}
-              {node.type === 'v-title' && <VTitle label={node.label} style={node.style} />}
+              {node.type === 'v-text' && <VText label={node.label} />}
+              {node.type === 'v-title' && <VTitle label={node.label} />}
             </div>
           ))}
         </div>

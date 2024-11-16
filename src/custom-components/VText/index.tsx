@@ -1,23 +1,11 @@
-import { defaultStyle } from '../component-list'
-
 type Props = {
   label: string
-  style: defaultStyle
 }
 
 const VText = (props: Props) => {
-  const { style, label } = props
+  const { label } = props
 
-  return (
-    <div
-      style={{
-        ...style,
-        position: 'absolute',
-      }}
-    >
-      {label}
-    </div>
-  )
+  return <>{label}</>
 }
 
 export default VText

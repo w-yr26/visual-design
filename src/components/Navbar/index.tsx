@@ -1,4 +1,3 @@
-import { Space } from 'antd'
 import {
   CopyOutlined,
   ScissorOutlined,
@@ -8,15 +7,17 @@ import {
   DoubleLeftOutlined,
   DoubleRightOutlined,
   BorderlessTableOutlined,
+  VerticalAlignTopOutlined,
+  VerticalAlignBottomOutlined,
 } from '@ant-design/icons'
-import { Button, Tooltip } from 'antd'
+import { Button, Tooltip, Popover, Flex, Space } from 'antd'
 import { NavBox } from './style'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState } from '@/store'
 import { changeExtend } from '@/store/modules/LayoutSlice'
+import { bottom, down, top, up } from '@/store/modules/RenderSlice'
 
 const Navbar: React.FC = () => {
-  // const [isExtend, setExtend] = useState(false)
   const dispatch = useDispatch()
   const { isExtend } = useSelector((state: RootState) => state.layout)
   return (
@@ -45,7 +46,51 @@ const Navbar: React.FC = () => {
         <Space>
           {/* 层级 */}
           <Tooltip placement="bottom" title="层级">
-            <BorderlessTableOutlined className="icon-item" />
+            <Popover
+              // open={curComIndex !== -1}
+              trigger="click"
+              content={
+                <Flex
+                  align="flex-start"
+                  gap="small"
+                  wrap={true}
+                  style={{
+                    width: 175,
+                  }}
+                >
+                  <Button
+                    type="default"
+                    icon={<VerticalAlignTopOutlined />}
+                    onClick={() => dispatch(up())}
+                  >
+                    上移
+                  </Button>
+                  <Button
+                    type="default"
+                    icon={<VerticalAlignBottomOutlined />}
+                    onClick={() => dispatch(down())}
+                  >
+                    下移
+                  </Button>
+                  <Button
+                    type="default"
+                    icon={<VerticalAlignTopOutlined />}
+                    onClick={() => dispatch(top())}
+                  >
+                    置顶
+                  </Button>
+                  <Button
+                    type="default"
+                    icon={<VerticalAlignBottomOutlined />}
+                    onClick={() => dispatch(bottom())}
+                  >
+                    置底
+                  </Button>
+                </Flex>
+              }
+            >
+              <BorderlessTableOutlined className="icon-item" />
+            </Popover>
           </Tooltip>
           <div className="line-box"></div>
           {/* 复制 */}

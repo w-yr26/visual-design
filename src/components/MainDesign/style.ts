@@ -16,4 +16,8 @@ export const MainBox = styled.div`
     background-color: #ffffff;
     box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.1);
   }
+
+  .active {
+    border: 1px solid red;
+  }
 `
