@@ -75,6 +75,10 @@ const RenderSlice = createSlice({
     deleteSingleDOM(state) {
       state.renderList.splice(state.curComIndex, 1)
     },
+    // 清空选中的组件
+    resetSelectDOMs(state) {
+      state.renderList = []
+    },
     // 层级上移(在数组中越后挪)
     up(state) {
       // 根据uuid找出要操作的组件
@@ -139,6 +143,7 @@ export const {
   getCurrentDOM,
   resetClickDOM,
   deleteSingleDOM,
+  resetSelectDOMs,
   bottom,
   down,
   top,

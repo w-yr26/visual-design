@@ -11,39 +11,59 @@ import {
   VerticalAlignBottomOutlined,
   DeleteOutlined,
 } from '@ant-design/icons'
-import { Button, Tooltip, Popover, Flex, Space } from 'antd'
+import { Button, Tooltip, Popover, Flex, Space, Popconfirm } from 'antd'
 import { NavBox } from './style'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState } from '@/store'
 import { changeExtend } from '@/store/modules/LayoutSlice'
-import { bottom, down, top, up, deleteSingleDOM } from '@/store/modules/RenderSlice'
+import {
+  bottom,
+  down,
+  top,
+  up,
+  deleteSingleDOM,
+  resetSelectDOMs,
+} from '@/store/modules/RenderSlice'
 
 const Navbar: React.FC = () => {
   const dispatch = useDispatch()
   const { isExtend } = useSelector((state: RootState) => state.layout)
-  const { curComIndex } = useSelector((state: RootState) => state.render)
+  const { curComIndex, renderList } = useSelector((state: RootState) => state.render)
   // 删除选中的组件
   const deleteItem = () => {
     if (curComIndex === -1) return
     dispatch(deleteSingleDOM())
   }
   // 改变组件层级
-  const handleUp = () => {
+  const handleHierarchy = (type: 'up' | 'down' | 'top' | 'bottom') => {
     if (curComIndex === -1) return
-    dispatch(up())
+    switch (type) {
+      case 'up':
+        dispatch(up())
+        break
+      case 'down':
+        dispatch(down())
+        break
+      case 'top':
+        dispatch(top())
+        break
+      case 'bottom':
+        dispatch(bottom())
+        break
+      default:
+        break
+    }
   }
-  const handleDown = () => {
-    if (curComIndex === -1) return
-    dispatch(down())
+
+  // 确认清空
+  const onConfirm = () => {
+    dispatch(resetSelectDOMs())
   }
-  const handleTop = () => {
-    if (curComIndex === -1) return
-    dispatch(top())
+
+  const onCancel = () => {
+    console.log('cancle')
   }
-  const handleBottom = () => {
-    if (curComIndex === -1) return
-    dispatch(bottom())
-  }
+
   return (
     <NavBox>
       <div className="nav-left">
@@ -81,23 +101,31 @@ const Navbar: React.FC = () => {
                     width: 175,
                   }}
                 >
-                  <Button type="default" icon={<VerticalAlignTopOutlined />} onClick={handleUp}>
+                  <Button
+                    type="default"
+                    icon={<VerticalAlignTopOutlined />}
+                    onClick={() => handleHierarchy('up')}
+                  >
                     上移
                   </Button>
                   <Button
                     type="default"
                     icon={<VerticalAlignBottomOutlined />}
-                    onClick={handleDown}
+                    onClick={() => handleHierarchy('down')}
                   >
                     下移
                   </Button>
-                  <Button type="default" icon={<VerticalAlignTopOutlined />} onClick={handleTop}>
+                  <Button
+                    type="default"
+                    icon={<VerticalAlignTopOutlined />}
+                    onClick={() => handleHierarchy('top')}
+                  >
                     置顶
                   </Button>
                   <Button
                     type="default"
                     icon={<VerticalAlignBottomOutlined />}
-                    onClick={handleBottom}
+                    onClick={() => handleHierarchy('bottom')}
                   >
                     置底
                   </Button>
@@ -162,7 +190,22 @@ const Navbar: React.FC = () => {
           </Tooltip>
           {/* 清空 */}
           <Tooltip placement="bottom" title="清空">
-            <RedoOutlined className="icon-item" />
+            <Popconfirm
+              title="温馨提示"
+              description="您确认要清空画布吗?"
+              onConfirm={onConfirm}
+              onCancel={onCancel}
+              okText="确认"
+              cancelText="取消"
+              disabled={renderList.length === 0}
+            >
+              <RedoOutlined
+                className="icon-item"
+                style={{
+                  color: renderList.length === 0 ? '#eaeaf6' : '#3b3f88',
+                }}
+              />
+            </Popconfirm>
           </Tooltip>
         </Space>
       </div>
