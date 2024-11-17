@@ -42,7 +42,7 @@ const componentList = new Map([
         style: {
           width: 200,
           height: 40,
-          color: '',
+          color: 'red',
           fontSize: 32,
           fontWeight: 700,
           textAlign: 'left',
@@ -64,7 +64,7 @@ const componentList = new Map([
         style: {
           width: 200,
           height: 33,
-          color: '',
+          color: 'green',
           fontSize: 24,
           fontWeight: 600,
           textAlign: 'left',

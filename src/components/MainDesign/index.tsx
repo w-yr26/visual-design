@@ -9,10 +9,10 @@ import _ from 'lodash'
 const MainDesign = () => {
   const { renderList, curComIndex } = useSelector((state: RootState) => state.render)
   const dispatch = useDispatch()
+
   const handleMouseDown = (e: React.MouseEvent, uuid: string) => {
     // 阻止事件冒泡(因为可能存在选中画布而不选中组件的情况)
     e.stopPropagation()
-    e.preventDefault() // 阻止触发 click 事件
     // 根据uuid找到当前选中的组件
     const currentNode = renderList.find((item) => item.uuid === uuid)
     if (!currentNode) return console.log('组件未被选中')
@@ -46,11 +46,7 @@ const MainDesign = () => {
     }, 20)
 
     // 监听鼠标放开事件
-    const up = (moveEvent: MouseEvent) => {
-      console.log('弹起')
-      moveEvent.stopPropagation()
-      moveEvent.preventDefault() // 阻止触发 click 事件
-
+    const up = () => {
       // 取消未执行的节流事件
       move.cancel()
       document.removeEventListener('mousemove', move)
@@ -71,11 +67,12 @@ const MainDesign = () => {
   }
 
   // 点击画布
-  const clickBoard = () => {
+  const clickBoard = (e: React.MouseEvent) => {
+    // 触发事件的元素和事件绑定的元素不一致(说明此时是由于mouseup事件触发而非click)
+    if (e.target !== e.currentTarget) return
     console.log('exe')
-
     // 不选中任何元素
-    // dispatch(resetClickDOM())
+    dispatch(resetClickDOM())
   }
 
   return (

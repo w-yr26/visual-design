@@ -49,6 +49,10 @@ const RenderSlice = createSlice({
       if (state.curComIndex === -1) return console.log('原先没选中任何元素')
       state.curComIndex = -1
     },
+    // 删除选中的组件
+    deleteSingleDOM(state) {
+      state.renderList.splice(state.curComIndex, 1)
+    },
     // 层级上移(在数组中越后挪)
     up(state) {
       // 根据uuid找出要操作的组件
@@ -111,6 +115,7 @@ export const {
   updateDOMPosition,
   getCurrentDOM,
   resetClickDOM,
+  deleteSingleDOM,
   bottom,
   down,
   top,
