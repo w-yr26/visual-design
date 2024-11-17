@@ -7,6 +7,12 @@ type PositionPayload = {
   uuid: string
 }
 
+type SizePayload = {
+  newWidth: number
+  newHeight: number
+  uuid: string
+}
+
 const RenderSlice = createSlice({
   name: 'render',
   initialState: {
@@ -38,6 +44,23 @@ const RenderSlice = createSlice({
         }
       })
     },
+    // 更新组件的宽高
+    updateDOMSize(state, { payload }: PayloadAction<SizePayload>) {
+      const { newHeight, newWidth, uuid } = payload
+      state.renderList = state.renderList.map((item) => {
+        if (item.uuid !== uuid) return item
+        else {
+          return {
+            ...item,
+            style: {
+              ...item.style,
+              width: newWidth,
+              height: newHeight,
+            },
+          }
+        }
+      })
+    },
     // 获取当前选中读的组件
     getCurrentDOM(state, { payload }: PayloadAction<CommonType>) {
       state.checkNode = { ...payload }
@@ -46,7 +69,6 @@ const RenderSlice = createSlice({
     },
     // 重置选中的组件(即谁也不选)
     resetClickDOM(state) {
-      if (state.curComIndex === -1) return console.log('原先没选中任何元素')
       state.curComIndex = -1
     },
     // 删除选中的组件
@@ -113,6 +135,7 @@ const RenderSlice = createSlice({
 export const {
   addRenderDOM,
   updateDOMPosition,
+  updateDOMSize,
   getCurrentDOM,
   resetClickDOM,
   deleteSingleDOM,

@@ -21,3 +21,17 @@ export const MainBox = styled.div`
     border: 1px solid red;
   }
 `
+
+export const PointBox = styled.div`
+  .shape-point {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    border: 1px solid #3b3f88;
+    background-color: skyblue;
+  }
+`

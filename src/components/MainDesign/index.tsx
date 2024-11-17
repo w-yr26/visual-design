@@ -1,25 +1,41 @@
 import { RootState } from '@/store'
 import { MainBox } from './style'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateDOMPosition, getCurrentDOM, resetClickDOM } from '@/store/modules/RenderSlice'
+import {
+  updateDOMPosition,
+  getCurrentDOM,
+  resetClickDOM,
+  updateDOMSize,
+} from '@/store/modules/RenderSlice'
 import VText from '@/custom-components/VText'
 import VTitle from '@/custom-components/VTitle'
+import Shape from './Shape'
 import _ from 'lodash'
+import { useRef } from 'react'
+import { CommonType } from '@/custom-components/component-list'
 
 const MainDesign = () => {
   const { renderList, curComIndex } = useSelector((state: RootState) => state.render)
   const dispatch = useDispatch()
+  const pointRef = useRef<HTMLDivElement>(null)
 
-  const handleMouseDown = (e: React.MouseEvent, uuid: string) => {
-    // 阻止事件冒泡(因为可能存在选中画布而不选中组件的情况)
-    e.stopPropagation()
+  // 获取当前选中的组件 & 组件在renderList中的下标
+  const getCurrentNodeAndIndex = (uuid: string): CommonType | void => {
     // 根据uuid找到当前选中的组件
     const currentNode = renderList.find((item) => item.uuid === uuid)
     if (!currentNode) return console.log('组件未被选中')
     // store存放当前选中组件
     dispatch(getCurrentDOM(currentNode))
-    console.log('当前选中的组件', currentNode)
+    // console.log('当前选中的组件', currentNode)
+    return currentNode
+  }
 
+  const handleMouseDown = (e: React.MouseEvent, uuid: string) => {
+    // 阻止事件冒泡(因为可能存在选中画布而不选中组件的情况) -> mouseDown和click根本就不是同一事件，所以此处阻止冒泡没啥意义
+    // e.stopPropagation()
+
+    const currentNode = getCurrentNodeAndIndex(uuid)
+    if (!currentNode) return
     const style = { ...currentNode.style }
     // 组件最开始所在的位置
     const startX = e.clientX
@@ -72,7 +88,15 @@ const MainDesign = () => {
     if (e.target !== e.currentTarget) return
     console.log('exe')
     // 不选中任何元素
-    dispatch(resetClickDOM())
+    curComIndex !== -1 && dispatch(resetClickDOM())
+  }
+
+  const updateSize = (newWidth: number, newHeight: number, uuid: string) => {
+    // 获取当前选中的组件(点击到小圆点，也算选中了当前组件，但由于阻止了冒泡，所以此处需要单独获取一次)
+    const currentNode = getCurrentNodeAndIndex(uuid)
+    if (!currentNode) return
+    // 更新状态触发更新
+    dispatch(updateDOMSize({ newWidth, newHeight, uuid }))
   }
 
   return (
@@ -93,7 +117,16 @@ const MainDesign = () => {
                 ...node.style,
               }}
               className={curComIndex === index ? 'active' : ''}
+              ref={pointRef}
             >
+              {curComIndex === index && (
+                <Shape
+                  style={node.style}
+                  updateSize={updateSize}
+                  uuid={node.uuid}
+                  domRef={pointRef}
+                ></Shape>
+              )}
               {node.type === 'v-text' && <VText label={node.label} />}
               {node.type === 'v-title' && <VTitle label={node.label} />}
             </div>
