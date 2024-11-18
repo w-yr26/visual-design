@@ -18,7 +18,7 @@ export const MainBox = styled.div`
   }
 
   .active {
-    border: 1px solid red;
+    border: 1px solid #eaeaf6;
   }
 `
 

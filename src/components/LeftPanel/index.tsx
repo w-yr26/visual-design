@@ -3,7 +3,7 @@ import { Popover } from 'antd'
 import { LeftBox } from './style'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
-import ComList from './components/ComList'
+import ComList from './ComList'
 
 const LeftPanel = () => {
   const { isExtend } = useSelector((state: RootState) => state.layout)
