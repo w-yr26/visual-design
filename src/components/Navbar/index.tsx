@@ -10,6 +10,7 @@ import {
   VerticalAlignTopOutlined,
   VerticalAlignBottomOutlined,
   DeleteOutlined,
+  FundOutlined,
 } from '@ant-design/icons'
 import { Button, Tooltip, Popover, Flex, Space, Popconfirm } from 'antd'
 import { NavBox } from './style'
@@ -23,6 +24,9 @@ import {
   up,
   deleteSingleDOM,
   resetSelectDOMs,
+  copyNode,
+  cutNode,
+  parseNode,
 } from '@/store/modules/RenderSlice'
 
 const Navbar: React.FC = () => {
@@ -62,6 +66,21 @@ const Navbar: React.FC = () => {
 
   const onCancel = () => {
     console.log('cancle')
+  }
+
+  // 复制(未选中元素的情况已交给store处理)
+  const handleCopyNode = () => {
+    dispatch(copyNode())
+  }
+
+  // 粘贴
+  const handleParseNode = () => {
+    dispatch(parseNode())
+  }
+
+  // 剪切
+  const handleCutNode = () => {
+    dispatch(cutNode())
   }
 
   return (
@@ -143,21 +162,15 @@ const Navbar: React.FC = () => {
           <div className="line-box"></div>
           {/* 复制 */}
           <Tooltip placement="bottom" title="复制">
-            <CopyOutlined
-              className="icon-item"
-              style={{
-                color: curComIndex === -1 ? '#eaeaf6' : '#3b3f88',
-              }}
-            />
+            <CopyOutlined className="icon-item" onClick={handleCopyNode} />
+          </Tooltip>
+          {/* 粘贴 */}
+          <Tooltip placement="bottom" title="粘贴">
+            <FundOutlined className="icon-item" onClick={handleParseNode} />
           </Tooltip>
           {/* 剪切 */}
           <Tooltip placement="bottom" title="剪切">
-            <ScissorOutlined
-              className="icon-item"
-              style={{
-                color: curComIndex === -1 ? '#eaeaf6' : '#3b3f88',
-              }}
-            />
+            <ScissorOutlined className="icon-item" onClick={handleCutNode} />
           </Tooltip>
           <div className="line-box"></div>
           {/* 撤销 */}

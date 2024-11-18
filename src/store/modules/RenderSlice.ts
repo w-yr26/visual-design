@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { CommonType } from '../../custom-components/component-list'
 import { message } from 'antd'
+import { isEmpty as _IsEmpty } from 'lodash'
 type PositionPayload = {
   newTop: number
   newLeft: number
@@ -63,7 +64,6 @@ const RenderSlice = createSlice({
     },
     // 获取当前选中读的组件
     getCurrentDOM(state, { payload }: PayloadAction<CommonType>) {
-      state.checkNode = { ...payload }
       state.curComIndex = state.renderList.findIndex((item) => item.uuid === payload.uuid)
       console.log('store index', state.curComIndex)
     },
@@ -133,6 +133,32 @@ const RenderSlice = createSlice({
         message.warning('已经到底了')
       }
     },
+    // 复制(copy&cut操作可以不关心uuid，因为会在parse时做处理)
+    copyNode(state) {
+      if (state.curComIndex === -1) return console.log('copy not node')
+      const node = state.renderList[state.curComIndex]
+      state.checkNode = node
+    },
+    // 粘贴
+    parseNode(state) {
+      if (_IsEmpty(state.checkNode)) {
+        message.error('当前未选中任何元素')
+        return
+      }
+      const node = {
+        ...state.checkNode,
+        uuid: new Date().toString(), // uuid作为key使用，要保证不唯一
+      }
+      state.renderList.push(node)
+    },
+    // 剪切
+    cutNode(state) {
+      if (state.curComIndex === -1) return console.log('cut not node')
+
+      // 切出来一个元素
+      const node = state.renderList.splice(state.curComIndex, 1)[0]
+      state.checkNode = node
+    },
   },
 })
 
@@ -148,6 +174,9 @@ export const {
   down,
   top,
   up,
+  copyNode,
+  cutNode,
+  parseNode,
 } = RenderSlice.actions
 
 export default RenderSlice.reducer
